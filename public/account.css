@@ -163,3 +163,18 @@ form button:focus {
     outline: none;
     border: 1px solid #218838
 }
+
+/* Add this to your account.css file */
+form input[type="password"] {
+    padding: 12px;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+form input[type="password"]:focus {
+    outline: none;
+    border: 1px solid #218838
+}
