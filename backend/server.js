@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const nodemailer = require('nodemailer');
 
 const authRoutes = require('./routes/authRoutes');
 const bookRoutes = require('./routes/bookRoutes');
@@ -16,6 +17,30 @@ app.use(cors());
 
 // Serve static files from the public directory (one level back from server.js)
 app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// Initialize Email Transporter Early
+if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+  console.error('Email credentials missing. Please set EMAIL_USER and EMAIL_PASS environment variables.');
+} else {
+  const emailTransporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+
+  emailTransporter.verify((error, success) => {
+    if (error) {
+      console.error('Email transporter error:', error);
+    } else {
+      console.log('Email server is ready to send messages');
+    }
+  });
+
+  // Make the transporter available to all routes
+  app.locals.emailTransporter = emailTransporter;
+}
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
@@ -46,7 +71,7 @@ app.listen(PORT, () => {
 
 //Sign Up Page and verification
 // Add these to your existing requires at the top of server.js
-const nodemailer = require('nodemailer');
+
 const crypto = require('crypto');
 
 // Add this middleware setup if you don't already have it
@@ -54,15 +79,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Create a collection to store OTPs (you can also use Redis or another store)
 const otpStore = {};
-
-// Email transporter setup
-const transporter = nodemailer.createTransport({
-  service: 'gmail',  // or another service
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD
-  }
-});
 
 // Add these routes to your existing routes section
 app.post('/api/auth/send-otp', async (req, res) => {

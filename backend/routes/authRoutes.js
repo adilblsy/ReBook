@@ -36,14 +36,13 @@ async function sendVerificationEmail(email, otp) {
 router.post("/signup", async (req, res) => {
   const { name, email, whatsapp, password } = req.body;
 
-  if (!email.endsWith("@college.edu")) {
+  if (!email.endsWith("@rit.ac.in")) {
     return res
       .status(400)
       .json({ message: "Only college emails are allowed!" });
   }
 
   try {
-    // Check if email already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already registered" });
@@ -51,7 +50,6 @@ router.post("/signup", async (req, res) => {
     
     const hashedPassword = await bcrypt.hash(password, 10);
     
-    // Create user
     const user = new User({ 
       name, 
       email, 
@@ -62,16 +60,16 @@ router.post("/signup", async (req, res) => {
     
     await user.save();
     
-    // Generate OTP for verification
+    // Generate a 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     
-    // Store OTP with expiration
+    // Store OTP with expiration (15 minutes)
     otpStore[email] = {
       otp,
-      expiresAt: Date.now() + 15 * 60 * 1000 // 15 minutes
+      expiresAt: Date.now() + 15 * 60 * 1000
     };
     
-    // Try to send email directly from this route
+    // Send verification email using the transporter available via app.locals
     const transporter = req.app.locals.emailTransporter;
     
     if (transporter) {
@@ -89,14 +87,12 @@ router.post("/signup", async (req, res) => {
         console.log(`Verification email sent to ${email}`);
       } catch (emailError) {
         console.error('Failed to send verification email:', emailError);
-        // Continue with registration even if email fails
+        // Continue even if email sending fails
       }
     } else {
       console.error('Email transporter not available');
     }
     
-    // Return success with OTP (for development/testing only)
-    // In production, remove the OTP from the response
     res.status(201).json({ 
       message: "User registered successfully", 
       requiresVerification: true,
@@ -107,6 +103,7 @@ router.post("/signup", async (req, res) => {
     res.status(500).json({ message: "Error registering user" });
   }
 });
+
 
 // Login Route
 router.post("/login", async (req, res) => {
