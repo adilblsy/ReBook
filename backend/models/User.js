@@ -6,6 +6,11 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     whatsapp: { type: String, required: true },
+      // existing fields
+      isVerified: {
+        type: Boolean,
+        default: false
+      }
   },
   { timestamps: true }
 );

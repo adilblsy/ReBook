@@ -43,3 +43,132 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
     console.log(`Visit http://localhost:${PORT} to access the application`);
 });
+
+//Sign Up Page and verification
+// Add these to your existing requires at the top of server.js
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+
+// Add this middleware setup if you don't already have it
+app.use(express.urlencoded({ extended: true }));
+
+// Create a collection to store OTPs (you can also use Redis or another store)
+const otpStore = {};
+
+// Email transporter setup
+const transporter = nodemailer.createTransport({
+  service: 'gmail',  // or another service
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD
+  }
+});
+
+// Add these routes to your existing routes section
+app.post('/api/auth/send-otp', async (req, res) => {
+  const { email } = req.body;
+  
+  if (!email) {
+    return res.status(400).json({ message: 'Email is required' });
+  }
+  
+  try {
+    // Generate a 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    
+    // Store OTP with expiration time (15 minutes)
+    otpStore[email] = {
+      otp,
+      expiresAt: Date.now() + 15 * 60 * 1000  // 15 minutes from now
+    };
+    
+    // Send email with OTP
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Your ReBook Verification Code',
+      html: `<h1>ReBook Email Verification</h1>
+             <p>Your verification code is: <strong>${otp}</strong></p>
+             <p>This code will expire in 15 minutes.</p>`
+    };
+    
+    await transporter.sendMail(mailOptions);
+    
+    return res.status(200).json({ message: 'OTP sent successfully' });
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    return res.status(500).json({ message: 'Failed to send OTP' });
+  }
+});
+
+app.post('/api/auth/verify-otp', async (req, res) => {
+  const { email, otp } = req.body;
+  
+  if (!email || !otp) {
+    return res.status(400).json({ message: 'Email and OTP are required' });
+  }
+  
+  try {
+    // Check if OTP exists and is valid
+    const otpData = otpStore[email];
+    
+    if (!otpData) {
+      return res.status(400).json({ message: 'OTP not found or expired. Please request a new one.' });
+    }
+    
+    if (Date.now() > otpData.expiresAt) {
+      // Clean up expired OTP
+      delete otpStore[email];
+      return res.status(400).json({ message: 'OTP has expired. Please request a new one.' });
+    }
+    
+    if (otpData.otp !== otp) {
+      return res.status(400).json({ message: 'Invalid OTP' });
+    }
+    
+    // OTP is valid, clean up
+    delete otpStore[email];
+    
+    // Update user account to "verified" status in your database
+    // This depends on your User model, but might look like:
+    await User.findOneAndUpdate({ email }, { isVerified: true });
+    
+    return res.status(200).json({ message: 'Email verified successfully' });
+  } catch (error) {
+    console.error('Error verifying OTP:', error);
+    return res.status(500).json({ message: 'Failed to verify OTP' });
+  }
+});
+
+// Add this after your mongoose connection setup
+// Email transporter setup
+let emailTransporter;
+try {
+  // Check if environment variables are defined before creating the transporter
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.error('Email credentials missing. Please set EMAIL_USER and EMAIL_PASS environment variables.');
+    // You might want to set a flag or use a fallback mechanism here
+  } else {
+    emailTransporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
+    
+    // Verify the transporter connection
+    emailTransporter.verify(function(error, success) {
+      if (error) {
+        console.error('Email transporter error:', error);
+      } else {
+        console.log('Email server is ready to send messages');
+      }
+    });
+    
+    // Make transporter available to routes
+    app.locals.emailTransporter = emailTransporter;
+  }
+} catch (err) {
+  console.error('Failed to set up email transporter:', err);
+}
