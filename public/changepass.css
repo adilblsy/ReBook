@@ -53,7 +53,7 @@ header img {
 
 h2, p {
     margin: 0;
-    color: rgba(15, 98, 254, 1);
+    color: #218838
 }
 
 p {
@@ -91,7 +91,7 @@ p {
     margin: 0;
     font-size: 15px;
     font-weight: 700;
-    color: rgba(15, 98, 254, 1);
+    color: #218838;
     cursor: pointer;
 }
 
@@ -110,7 +110,7 @@ form {
 
 .changepass-title {
     text-align: center;
-    color: rgba(15, 98, 254, 1);
+    color: #218838;
     font-size: 22px;
     margin-bottom: 40px;
 }
@@ -142,7 +142,7 @@ form input[type="text"] {
 form button {
     display: block;
     width: 100%;
-    background: rgba(15, 98, 254, 1);
+    background: #218838;
     color: white;
     margin-top: 10px;
     margin-bottom: -10px;
@@ -154,92 +154,12 @@ form button {
 }
 
 form button:hover {
-    background: rgb(1, 83, 235);
+    background: #218838;
     transform: scale(1.01);
 }
 
 form input[type="text"]:focus,
 form button:focus {
     outline: none;
-    border: 1px solid rgba(15, 98, 254, 1);
-}
-
-@media only screen and (max-width: 650px) {
-    header {
-        height: 55px;
-    }
-
-    footer {
-        height: 1px;
-    }
-
-    header img {
-        transform: scale(0.50);
-        margin-left: -20px;
-    }
-
-    .title-head {
-        margin-left: -12px;
-    }
-
-    section, form {
-        width: calc(100% - 70px);
-        margin: 5px auto;
-        padding: 15px;
-    }
-
-    h2 {
-        font-size: 16px;
-    }
-
-    form button {
-        margin-top: -25px;
-        padding: 8px 15px;
-        font-size: 10px;
-    }
-
-    form input[type="text"] {
-        padding: 4px;
-        font-size: 8px;
-    }
-
-    .form-group {
-        margin-bottom: 2px;
-        margin-top: -15px;
-    }
-
-    .form-group label {
-        margin-top: -5px;
-        margin-bottom: 2px;
-        font-size: 7px;
-    }
-
-    .changepass-title {
-        font-size: 11px;
-        margin-bottom: 40px;
-    }
-
-    p {
-        font-size: 11px;
-    }
-    
-    .footer-style {
-        font-size: 7px;
-    }
-
-    .menu {
-        font-size: 9px;
-        right: 5;
-    }
-    
-    .menu-on {
-        font-size: 7px;
-        font-weight: 700;
-    }
-
-    .menu-container {
-        top: 25px;
-        right: 15px;
-        gap: 15px;
-    }
+    border: 1px solid #218838
 }
