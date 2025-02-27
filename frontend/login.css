@@ -49,7 +49,7 @@ header img {
 
 h2, p {
     margin: 0;
-    color: rgba(15, 98, 254, 1);
+    color: #218838;
 }
 
 p {
@@ -83,7 +83,7 @@ form {
 
 .login-title {
     text-align: center;
-    color: rgba(15, 98, 254, 1);
+    color: #218838;
     font-size: 26px;
     margin-bottom: 40px;
 }
@@ -105,7 +105,7 @@ form {
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center;
-    color: rgba(15, 98, 254, 1);
+    color: #218838;
     font-size: 14px;
     text-decoration: none;
 }
@@ -172,7 +172,7 @@ form input[type="text"] {
     display: block;
     width: 100%;
     text-align: center;
-    background: rgba(15, 98, 254, 1);
+    background: #218838;
     color: white;
     margin-top: 35px;
     border: none;
@@ -185,87 +185,12 @@ form input[type="text"] {
 }
 
 .login-button:hover {
-    background: rgb(1, 83, 235);
+    background: #1e8434;
     transform: scale(1.01);
 }
 
 form input[type="text"]:focus {
     outline: none;
-    border: 1px solid rgba(15, 98, 254, 1);
+    border: 1px solid #218838;
     color: rgba(112, 112, 112, 1);
-}
-
-@media only screen and (max-width: 500px) {
-    header {
-        height: 50px;
-    }
-
-    footer {
-        height: 1px;
-    }
-
-    header img {
-        transform: scale(0.50);
-        margin-left: -20px;
-    }
-
-    .title-head {
-        margin-left: -12px;
-    }
-
-    section, form {
-        width: calc(100% - 70px);
-        margin: 5px auto;
-        padding: 15px;
-    }
-
-    h2 {
-        font-size: 16px;
-    }
-
-    .login-button {
-        margin-top: 35px;
-        padding: 8px 15px;
-        font-size: 13.4px;
-    }
-
-    form input[type="text"] {
-        padding: 4px;
-        font-size: 10.8px;
-    }
-
-    .form-group {
-        margin-bottom: 2px;
-        margin-top: -10px;
-    }
-
-    .form-group label {
-        margin-top: -5px;
-        margin-bottom: 2px;
-        font-size: 9.4px;
-    }
-
-    .login-title {
-        font-size: 17.4px;
-        margin-top: 10px;
-    }
-    
-    .forgot-password-link {
-        font-size: 9.4px;
-        margin-top: -7px;
-    }
-
-    p {
-        font-size: 11px;
-    }
-    
-    .footer-style {
-        font-size: 9.4px;
-    }
-
-    .input-icon {
-        right: 5px;
-        top: 53%;
-        width: 20px;
-    }
 }
