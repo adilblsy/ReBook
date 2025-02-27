@@ -3,15 +3,27 @@ const Book = require("../models/book");
 
 const router = express.Router();
 
-// Get all books
 router.get("/", async (req, res) => {
   try {
-    const books = await Book.find();
+    const { department, semester, subject, sort, order } = req.query;
+    const query = {};
+    if (department) query.department = department;
+    if (semester) query.semester = Number(semester);
+    if (subject) query.subject = subject;
+
+    const sortOrder = order === "asc" ? 1 : -1;
+    const sortOptions = {};
+    if (sort) {
+      sortOptions[sort] = sortOrder;
+    }
+
+    const books = await Book.find(query).sort(sortOptions);
     res.json(books);
   } catch (err) {
     res.status(500).json({ message: "Error fetching books" });
   }
 });
+
 
 // Add a new book
 router.post("/", async (req, res) => {
