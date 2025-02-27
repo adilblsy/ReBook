@@ -68,79 +68,228 @@ section {
     flex: 1;
 }
 
-.hero-section {
-    text-align: center;
-    margin: 20px auto;
+.menu-container {
+    position: absolute;
+    top: 38px;
+    right: 30px;
+    display: flex;
+    gap: 40px;
 }
 
-.hero-image {
-    width: 100%;
-    max-width: 600px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.menu {
+    margin: 0;
+    font-size: 15px;
+    color: rgba(112, 112, 112, 1);
+    cursor: pointer;
 }
 
-.button-container {
-    margin-top: 20px;
+.main-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 40px;
+    margin-top: 1c0px;
+    margin-bottom: 20px;
+}
+
+.container {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 220px; /* Increased width */
+    height: 400px; /* Ensuring equal height */
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background: white;
+}
+
+.item img {
+    max-width: 100%;
+    max-height: 200px; /* Slightly increased image size */
+    object-fit: contain; /* Ensures images fit within the box */
+}
+
+.item-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
     width: 100%;
 }
 
-.button {
-    display: block;
+.book-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #218838;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.author-name, .publication-name, .price {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+}
+
+.buy-button {
     width: 100%;
-    max-width: 200px;
-    text-align: center;
+    background: #218838;
     color: white;
     border: none;
-    padding: 16px 30px;
+    padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 20px;
-    text-decoration: none;
-    box-sizing: border-box;
+    font-size: 16px;
+    margin-top: 5px; /* Ensures button stays at the bottom */
 }
 
-.login-button {
-    background: #218838;
+.buy-button:hover {
+    background: #1a6f30;
 }
 
-.login-button:hover {
-    background: #1e8434;
-    transform: scale(1.01);
+.item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
-.signup-button {
+.parent-container {
+    display: flex;
+    align-items: stretch; /* Ensures both containers have the same height */
+    gap: 10px; /* Space between the filter and image container */
+    position: relative; /* Ensures it scrolls with the page */
+    width: fit-content; /* Ensures it wraps around its content */
+    height: 60px;
+    margin-left: auto; /* Pushes it to the right */
+    margin-right: 85px; /* Adjust this value for spacing from the right edge */
+    top: 20px; /* Adjust vertical positioning */
+}
+
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     background: white;
-    color: #218838;
-    border: 1px solid #218838;
+    width: 535px;
+    height: 40px; /* Ensures it adjusts dynamically */
 }
 
-.signup-button:hover {
-    background: rgb(244, 252, 246);
-    transform: scale(1.01);
+.image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background: white;
+    width: 40px; /* 10px less than the main container */
+    height: auto; /* Makes sure it adapts to filter-container's height */
 }
 
-.hero-text {
-    font-size: 48px;
-    font-weight: 800;
-    color: #218838;
-    text-align: center;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    animation: fadeIn 1.5s ease-in-out;
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    cursor: pointer;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+
+/* Styling for form-group */
+.form-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap; /* Ensures no extra space due to wrapping */
+}
+
+.search-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Styling for the search icon */
+.form-group img {
+    width: 30px;
+    height: 35px;
+    cursor: pointer;
+    margin: 0; /* Removes any extra margin */
+    padding: 0; /* Ensures no internal padding */
+    display: block; /* Prevents inline spacing issues */
+}
+
+
+.dropdown {
+    display: flex;
+    width: 100%;
+}
+
+select {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd; /* Default border */
+    background-color: white;
+    color: rgba(112, 112, 112, 1);
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+}
+
+/* Apply green border when dropdown is focused */
+select:focus {
+    border: 1px solid #218838; /* Green border */
+}
+
+.sell-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background: #218838; /* Your previous green color */
+    width: 150px; /* Adjust width as needed */
+    height: 40px; /* Same as parent-container */
+    position: relative;
+    left: 85px; /* Places it 85px from the left */
+    top: 80px; /* Align with parent-container */
+    cursor: pointer;
+}
+
+.sell-container:hover{
+    background: #1f8339;
+    transform: scale(1.05);
+}
+
+.sell-container img {
+    max-width: 25px;
+    height: auto;
+    margin-right: 8px;
+}
+
+.sell-container span {
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
 }
