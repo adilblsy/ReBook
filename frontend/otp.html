@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Internal Exam Management">
-    <title>Index</title>
+    <title>Change Password</title>
     <link rel="icon" href="images/icon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="otp.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 
@@ -19,22 +19,21 @@
     </header>
     <br>
     <section>
-        <section class="hero-section">
-            <br>
-            <h1 class="hero-text">Welcome<br>Back!</h1>
-            <br>
-            <div class="button-container">
-                <div class="button-container">
-                    <a href="login.html" class="button login-button">Login</a>
-                    <a href="register.html" class="button signup-button">Sign Up</a>
-                </div>                
+        <form id="changePassFrm">
+            <h2 class="changepass-title">OTP</h2>
+            <p class="otp-gone">An OTP have been sent to your<br>registered Email ID</p>
+
+            <div class="form-group">
+                <label for="Confirm-password">OTP</label>
+                <input type="text" id="Confirm-password"  name="Confirm-password" required><br><br>
             </div>
-        </section>
+
+            <button type="submit">Change</button><br><br>
+        </form>
     </section>
     <br>
     <footer>
-        <p class="footer-style">&copy; Promptzee 25</p>
+        <p class="footer-style">&copy; 2025, DPCSE</p>
     </footer>
-    <script src="index.js"></script>
-    
+    <script src="changepass.js"></script>
 </body>
