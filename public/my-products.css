@@ -74,7 +74,7 @@ p {
 
 .menu-container {
     position: absolute;
-    top: 38px;
+    top: 30px;
     right: 30px;
     display: flex;
     gap: 40px;
@@ -195,4 +195,11 @@ p {
 .item:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.top-img {
+    width: 50px;
+    height: auto;
+    margin-left: 10px;
+    margin-right: 3px;
 }

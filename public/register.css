@@ -209,3 +209,10 @@ form input[type="text"]:focus {
     border: 1px solid #218838;
     color: rgba(112, 112, 112, 1);
 }
+
+.top-img {
+    width: 50px;
+    height: auto;
+    margin-left: 10px;
+    margin-right: 3px;
+}

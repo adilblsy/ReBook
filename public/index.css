@@ -144,3 +144,10 @@ section {
         transform: translateY(0);
     }
 }
+
+.top-img {
+    width: 50px;
+    height: auto;
+    margin-left: 10px;
+    margin-right: 3px;
+}

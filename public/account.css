@@ -70,7 +70,7 @@ p {
 
 .menu-container {
     position: absolute;
-    top: 38px;
+    top: 30px;
     right: 30px;
     display: flex;
     gap: 40px;
@@ -177,4 +177,11 @@ form input[type="password"] {
 form input[type="password"]:focus {
     outline: none;
     border: 1px solid #218838
+}
+
+.top-img {
+    width: 50px;
+    height: auto;
+    margin-left: 10px;
+    margin-right: 3px;
 }

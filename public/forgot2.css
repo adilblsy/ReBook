@@ -189,3 +189,10 @@ form button:focus {
 .back-button:hover {
     filter: brightness(0.7);
 }
+
+.top-img {
+    width: 50px;
+    height: auto;
+    margin-left: 10px;
+    margin-right: 3px;
+}

@@ -53,14 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const item = document.createElement("div");
         item.className = "item";
   
-        // Create and append the overlay image (wishlist icon)
-        const overlayImg = document.createElement("img");
-        overlayImg.className = "overlay-image";
-        overlayImg.src = "images/noheart.png";
-        overlayImg.alt = "Add to Wishlist";
-        // Optionally, add an event listener for wishlist toggling here
-        item.appendChild(overlayImg);
-  
         // Create and append the main book image
         const bookImg = document.createElement("img");
         bookImg.src = book.image;
