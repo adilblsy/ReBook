@@ -34,6 +34,10 @@ html, body {
     box-sizing: border-box;
 }
 
+section {
+    flex: 1;
+}
+
 footer {
     width: 100%;
     text-align: center;
@@ -49,16 +53,12 @@ header img {
 
 h2, p {
     margin: 0;
-    color: #218838;
+    color: #218838
 }
 
 p {
     font-weight: 500;
     font-size: 18px;
-}
-
-section {
-    flex: 1;
 }
 
 .footer-style {
@@ -68,8 +68,34 @@ section {
     margin: 0;
 }
 
+.menu-container {
+    position: absolute;
+    top: 38px;
+    right: 30px;
+    display: flex;
+    gap: 40px;
+}
+
+.menu {
+    margin: 0;
+    font-size: 15px;
+    color: rgba(112, 112, 112, 1);
+    cursor: pointer;
+}
+
+.menu:hover {
+    transform: scale(1.05);
+}
+
+.menu-on {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #218838;
+    cursor: pointer;
+}
+
 form {
-    position: relative;
     margin: 20px auto;
     padding: 50px;
     width: 100%;
@@ -82,60 +108,10 @@ form {
     align-items: center;
 }
 
-.reset-title {
+.changepass-title {
     text-align: center;
     color: #218838;
     font-size: 22px;
-    margin-bottom: -5px;
-}
-
-.otp-gone {
-    display: block;
-    margin-top: 10px;
-    color: rgba(112, 112, 112, 1);
-    text-align: center;
-    font-size: 11px;
-    text-decoration: none;
-    margin-bottom: 40px;
-}
-
-.back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 25px;
-    height: auto;
-    cursor: pointer;
-}
-
-.otp-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-}
-
-.no-otp {
-    display: block;
-    margin-top: -5px;
-    color: rgba(112, 112, 112, 1);
-    text-align: center;
-    font-size: 12px;
-    text-decoration: none;
-}
-
-.resend {
-    cursor: pointer;
-    display: block;
-    margin-top: -5px;
-    color: #218838;
-    text-align: center;
-    font-size: 14px;
-    text-decoration: none;
-}
-
-.resend:hover {
-    text-decoration: underline;
 }
 
 .form-group {
@@ -167,7 +143,8 @@ form button {
     width: 100%;
     background: #218838;
     color: white;
-    margin-top: -10px;
+    margin-top: 10px;
+    margin-bottom: -10px;
     border: none;
     padding: 16px 30px;
     border-radius: 5px;
@@ -183,9 +160,15 @@ form button:hover {
 form input[type="text"]:focus,
 form button:focus {
     outline: none;
-    border: 1px solid #218838;
+    border: 1px solid #218838
 }
 
-.back-button:hover {
-    filter: brightness(0.7);
+.otp-gone {
+    display: block;
+    margin-top: 10px;
+    color: rgba(112, 112, 112, 1);
+    text-align: center;
+    font-size: 11px;
+    text-decoration: none;
+    margin-bottom: 40px;
 }

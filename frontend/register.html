@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Internal Exam Management">
+    <title>Register</title>
+    <link rel="icon" href="images/icon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="register.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <img src="logo.webp" alt="logo">
+            <div class="title-head">
+                <h2>ReBook</h2>
+            </div>
+    </header>
+    <br>
+    <section>
+        <form id="loginForm">
+            <h2 class="login-title">Register</h2>
+
+            <div class="form-group" >
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name"><br><br>
+            </div>
+
+            <div class="form-group" >
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email"><br><br>
+            </div>
+
+            <div class="form-group" >
+                <label for="phone">Whatsapp Number</label>
+                <input type="number" id="number" name="number"><br><br>
+            </div>
+
+            <div class="form-group" >
+                <label for="password">Password</label>
+                <div class="input-container">
+                    <input type="password" id="password" name="password" >
+                    <img class="input-icon" id="hide" src="images/eye-close.webp" alt="Show Password"  > 
+                    <!--<img src="images/eye-open.webp" alt="Show Password" class="input-icon">-->
+                </div>
+            </div>            
+
+            <!-- <a href="home.html" class="login-button">Login</a> -->
+            <a href="otp.html" class="login-button">Register</a>
+            <br><br>
+
+            <div class="otp-container">
+                <p class="no-otp">Already have an account?</p>
+                <br>
+                <a href="login.html"><p class="resend">Login</p></a>
+            </div>            
+            <div id="invalid-credentials">
+                <!-- <p id="invalid-msg">Invalid Credentials</p> -->
+            </div>
+        </form>
+    </section>
+    <br>
+    <footer>
+        <p class="footer-style">&copy; 2025, DPCSE</p>
+    </footer>
+    <script src="index.js"></script>
+    
+</body>
