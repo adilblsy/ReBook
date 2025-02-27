@@ -172,3 +172,11 @@ form button:focus {
     text-decoration: none;
     margin-bottom: 40px;
 }
+
+#message {
+    margin-top: 20px; /* Adjust as needed */
+    padding: 10px;
+    text-align: center;
+    font-size: 1rem;
+  }
+  
