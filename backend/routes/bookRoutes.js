@@ -19,6 +19,7 @@ router.post("/", async (req, res) => {
     name,
     department,
     semester,
+    subject,
     image,
     price,
     author,
@@ -30,6 +31,7 @@ router.post("/", async (req, res) => {
     !name ||
     !department ||
     !semester ||
+    !subject ||
     !image ||
     !price ||
     !author ||
@@ -43,6 +45,7 @@ router.post("/", async (req, res) => {
     name,
     department,
     semester,
+    subject,
     image,
     price,
     author,
