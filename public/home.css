@@ -166,6 +166,7 @@ section {
 
 .item:hover {
     transform: scale(1.05);
+    transition: 0.5s ease-in-out;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
@@ -291,8 +292,6 @@ select:focus {
     font-weight: bold;
 }
 
-/* --- Popup Styling --- */
-/* --- Popup Styling --- */
 .popup {
     display: none; /* Hidden by default */
     position: fixed;
@@ -389,10 +388,10 @@ select:focus {
 
 .sell-title {
     font-size: 22px;
-    font-weight: 600px; /* Remove px, font-weight should be a number like 400, 600, 700 */
+    font-weight: 600px; 
     margin-bottom: 30px;
     margin-top: 10px;
-    text-align: center; /* Centers the text */
+    text-align: center; 
 }
 
 
