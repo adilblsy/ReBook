@@ -3,13 +3,15 @@ const Book = require("../models/book");
 
 const router = express.Router();
 
+// GET: Fetch books with optional filtering & sorting
 router.get("/", async (req, res) => {
   try {
-    const { department, semester, subject, sort, order } = req.query;
+    const { department, semester, subject, sort, order, sellerWhatsApp } = req.query;
     const query = {};
     if (department) query.department = department;
     if (semester) query.semester = Number(semester);
     if (subject) query.subject = subject;
+    if (sellerWhatsApp) query.sellerWhatsApp = sellerWhatsApp;  // Filter by seller
 
     const sortOrder = order === "asc" ? 1 : -1;
     const sortOptions = {};
@@ -24,8 +26,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-// Add a new book
+// POST: Add a new book (sell form connection)
 router.post("/", async (req, res) => {
   const {
     name,
@@ -36,9 +37,10 @@ router.post("/", async (req, res) => {
     price,
     author,
     publication,
-    seller,
+    sellerWhatsApp,
   } = req.body;
 
+  // Validate all required fields
   if (
     !name ||
     !department ||
@@ -48,7 +50,7 @@ router.post("/", async (req, res) => {
     !price ||
     !author ||
     !publication ||
-    !seller
+    !sellerWhatsApp
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -62,7 +64,7 @@ router.post("/", async (req, res) => {
     price,
     author,
     publication,
-    seller,
+    sellerWhatsApp,
   });
 
   try {
@@ -73,8 +75,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-
-// Delete a book
+// DELETE: Remove a book by ID
 router.delete("/:id", async (req, res) => {
   try {
     const book = await Book.findByIdAndDelete(req.params.id);

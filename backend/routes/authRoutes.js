@@ -111,7 +111,15 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.json({ token, userId: user._id });
+    
+    // Include additional user details (email, name, whatsapp)
+    res.json({ 
+      token, 
+      userId: user._id,
+      email: user.email,
+      name: user.name,
+      whatsapp: user.whatsapp
+    });
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ message: "Server error" });
@@ -160,6 +168,9 @@ router.post("/verify-otp", async (req, res) => {
       message: "Email verified successfully",
       token,
       userId: user._id,
+      email: user.email,
+      name: user.name,
+      whatsapp: user.whatsapp
     });
   } catch (error) {
     console.error("OTP verification error:", error);
@@ -208,7 +219,7 @@ router.post("/resend-otp", async (req, res) => {
   }
 });
 
-// Send Reset Link (OTP) - ADD THIS ROUTE!
+// Send Reset Link (OTP)
 router.post("/send-reset-link", async (req, res) => {
   console.log("Received password reset request:", req.body); // Debugging log
   
@@ -251,7 +262,7 @@ router.post("/send-reset-link", async (req, res) => {
   }
 });
 
-// Reset Password - Verify OTP & Update Password - FIX THIS ROUTE!
+// Reset Password - Verify OTP & Update Password
 router.post("/reset-password", async (req, res) => {
   console.log("Received password reset request:", req.body); // Debugging log
 
