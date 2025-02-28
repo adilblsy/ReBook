@@ -56,19 +56,22 @@ Ensure you have the following installed on your system:
    git clone https://github.com/your-username/ReBook.git
 
 2. **Navigate to the project directory**
-   ```cd ReBook
+   ```bash
+   cd ReBook
 
 
 3. **Install dependencies**
-   ```npm install
+   ```bash
+   npm install
 
 
 4. **Start the backend server**
-   ```node server.js
+   ```bash
+   node server.js
 
 
 5. **Open the frontend**
-   ```Open index.html in a browser to access the user interface.
+   Open index.html in a browser to access the user interface.
 
 
 ## License
