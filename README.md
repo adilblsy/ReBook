@@ -32,10 +32,10 @@ ReBook provides a **secure, campus-exclusive platform** that allows students to 
 - **SDG 13 – Climate Action** – Lowers deforestation and carbon footprint by reducing the need for new books.  
 
 ## Technology Stack & Tools  
-- **Frontend** – HTML, CSS (for a responsive and user-friendly interface).  
-- **Backend** – Node.js (for handling authentication, book listings, and interactions).  
-- **Database** – MongoDB (for storing book listings and user information).  
-- **Deployment** – Running on **local host** for internal use.  
+- **Frontend** – HTML, CSS  
+- **Backend** – Node.js
+- **Database** – MongoDB  
+- **Deployment** – Running on **local host**.  
 
 ## Future Enhancements  
 - **Mobile App Version** – Expanding to a mobile app for better accessibility.  
