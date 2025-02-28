@@ -3,10 +3,6 @@
 ## Overview  
 ReBook is a **college-exclusive book marketplace** designed to help students **buy and sell used academic books** securely, affordably, and sustainably. By enabling students to resell their semester books, the platform reduces financial strain, minimizes waste, and promotes responsible consumption.  
 
-<<<<<<< HEAD
-**ReBook** is a buy-and-sell platform designed exclusively for our college students to exchange used academic books securely and affordably. By enabling students to resell their semester books, the platform reduces financial strain, minimizes waste, and promotes sustainable consumption.
----
-=======
 ## Problem Statement  
 - **High Cost of Books** – Students spend a significant amount on new books every semester.  
 - **Wastage of Resources** – Unused books often remain idle or get discarded.  
@@ -14,8 +10,7 @@ ReBook is a **college-exclusive book marketplace** designed to help students **b
 - **Existing Marketplaces Are Not Ideal** – Platforms like OLX or Facebook Marketplace are too broad and not tailored to students’ needs.  
 
 ## Solution – ReBook  
-ReBook provides a **secure, campus-exclusive platform** that allows students to **buy and sell used books at reduced prices** while ensuring all transactions remain within the college community.  
->>>>>>> d88aca5cb46b319ad38a8f1111ca95e7b407f709
+ReBook provides a **secure, campus-exclusive platform** that allows students to **buy and sell used books at reduced prices** while ensuring all transactions remain within the college community.
 
 ## Features  
 - **Student Authentication** – Only verified college students can access the platform.  
