@@ -1,8 +1,7 @@
 
 # ReBook
 
-**ReBook** is a college-exclusive web application that facilitates the buying and selling of used textbooks among college students. The platform is designed to provide an affordable, secure, and eco-friendly alternative to purchasing new textbooks every semester.
-
+**ReBook** is a buy-and-sell platform designed exclusively for our college students to exchange used academic books securely and affordably. By enabling students to resell their semester books, the platform reduces financial strain, minimizes waste, and promotes sustainable consumption.
 ---
 
 ## Table of Contents
