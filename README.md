@@ -59,16 +59,13 @@ Ensure you have the following installed on your system:
    ```bash
    cd ReBook
 
-
 3. **Install dependencies**
    ```bash
    npm install
 
-
 4. **Start the backend server**
    ```bash
    node server.js
-
 
 5. **Open the frontend**
    Open index.html in a browser to access the user interface.
