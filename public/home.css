@@ -204,8 +204,8 @@ section {
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     background: white;
-    width: 35px; /* 10px less than the main container */
-    height: 37px; /* Makes sure it adapts to filter-container's height */
+    width: 40px; /* 10px less than the main container */
+    height: 36px; /* Makes sure it adapts to filter-container's height */
 }
 
 .image-container img {
