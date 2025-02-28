@@ -54,10 +54,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
             
             if (response.ok) {
-                // Login successful
+                // Store user data in localStorage
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('userId', data.userId);
-                
+
+                // Store user details (including WhatsApp number)
+                localStorage.setItem('user', JSON.stringify({
+                    email: data.email,
+                    name: data.name,
+                    whatsapp: data.whatsapp // Ensure backend sends this
+                }));
+
                 // Redirect to home page
                 window.location.href = 'home.html';
             } else {

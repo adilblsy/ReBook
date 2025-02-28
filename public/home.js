@@ -1,133 +1,178 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Default sort order: descending (highest price first)
-    let sortOrder = "desc";
+  // -------------------------------
+  // BOOK FETCH & RENDER FUNCTIONALITY
+  // -------------------------------
+  let sortOrder = "desc";
   
-    // Get references to filter dropdowns and sort toggle elements
-    const departmentSelect = document.getElementById("department");
-    const semesterSelect = document.getElementById("semester");
-    const subjectSelect = document.getElementById("subject");
-    const sortToggle = document.getElementById("sortToggle");
-    const sortIcon = document.getElementById("sortIcon");
+  const departmentSelect = document.getElementById("department");
+  const semesterSelect = document.getElementById("semester");
+  const subjectSelect = document.getElementById("subject");
+  const sortToggle = document.getElementById("sortToggle");
+  const sortIcon = document.getElementById("sortIcon");
+  const container = document.querySelector(".main-container");
   
-    // Container where books will be rendered
-    const container = document.querySelector(".main-container");
-  
-    // Function to fetch books from the backend using filters and sort order
-    async function fetchBooks() {
-      // Retrieve current filter values
-      const department = departmentSelect.value;
-      const semester = semesterSelect.value;
-      const subject = subjectSelect.value;
-  
-      // Build URL query parameters
-      const params = new URLSearchParams();
-      if (department) params.append("department", department);
-      if (semester) params.append("semester", semester);
-      if (subject) params.append("subject", subject);
-      // Append sorting parameters for price
-      params.append("sort", "price");
-      params.append("order", sortOrder);
-  
-      try {
-        // Fetch books from your backend endpoint
-        const response = await fetch(`/api/books?${params.toString()}`);
-        const books = await response.json();
-        renderBooks(books);
-      } catch (error) {
-        console.error("Error fetching books:", error);
-        container.innerHTML = "<p>Error fetching books. Please try again later.</p>";
-      }
+  async function fetchBooks() {
+    const department = departmentSelect.value;
+    const semester = semesterSelect.value;
+    const subject = subjectSelect.value;
+    
+    const params = new URLSearchParams();
+    if (department) params.append("department", department);
+    if (semester) params.append("semester", semester);
+    if (subject) params.append("subject", subject);
+    params.append("sort", "price");
+    params.append("order", sortOrder);
+    
+    try {
+      const response = await fetch(`/api/books?${params.toString()}`);
+      const books = await response.json();
+      renderBooks(books);
+    } catch (error) {
+      console.error("Error fetching books:", error);
+      container.innerHTML = "<p>Error fetching books. Please try again later.</p>";
     }
+  }
   
-    // Function to render books in the main container, preserving your layout
-    function renderBooks(books) {
-      container.innerHTML = ""; // Clear any existing content
-  
-      if (books.length === 0) {
-        container.innerHTML = "<p>No books found matching the criteria.</p>";
-        return;
-      }
-  
-      books.forEach(book => {
-        // Create the item container for each book
-        const item = document.createElement("div");
-        item.className = "item";
-  
-        // Create and append the main book image
-        const bookImg = document.createElement("img");
-        bookImg.src = book.image;
-        bookImg.alt = "Book Image";
-        item.appendChild(bookImg);
-  
-        // Create and append the book name element
-        const bookName = document.createElement("h3");
-        bookName.className = "book-name";
-        bookName.textContent = book.name;
-        item.appendChild(bookName);
-  
-        // Create and append the author name element
-        const authorName = document.createElement("p");
-        authorName.className = "author-name";
-        authorName.textContent = book.author;
-        item.appendChild(authorName);
-  
-        // Create and append the publication name element
-        const publicationName = document.createElement("p");
-        publicationName.className = "publication-name";
-        publicationName.textContent = book.publication;
-        item.appendChild(publicationName);
-  
-        // Create and append the price element
-        const price = document.createElement("p");
-        price.className = "price";
-        price.textContent = `Price: ₹${book.price}`;
-        item.appendChild(price);
-  
-        // Create and append the "Buy" button
-        const buyButton = document.createElement("button");
-        buyButton.className = "buy-button";
-        buyButton.textContent = "Buy";
-        buyButton.addEventListener("click", function () {
-          // Open a WhatsApp chat with the seller's number
-          window.open(`https://wa.me/${book.sellerWhatsApp}`, "_blank");
-        });
-        item.appendChild(buyButton);
-  
-        // Append the complete item to the main container
-        container.appendChild(item);
+  function renderBooks(books) {
+    container.innerHTML = "";
+    if (books.length === 0) {
+      container.innerHTML = "<p>No books found matching the criteria.</p>";
+      return;
+    }
+    books.forEach(book => {
+      const item = document.createElement("div");
+      item.className = "item";
+      
+      const bookImg = document.createElement("img");
+      bookImg.src = book.image;
+      bookImg.alt = "Book Image";
+      item.appendChild(bookImg);
+      
+      const bookName = document.createElement("h3");
+      bookName.className = "book-name";
+      bookName.textContent = book.name;
+      item.appendChild(bookName);
+      
+      const authorName = document.createElement("p");
+      authorName.className = "author-name";
+      authorName.textContent = book.author;
+      item.appendChild(authorName);
+      
+      const publicationName = document.createElement("p");
+      publicationName.className = "publication-name";
+      publicationName.textContent = book.publication;
+      item.appendChild(publicationName);
+      
+      const priceElem = document.createElement("p");
+      priceElem.className = "price";
+      priceElem.textContent = `Price: ₹${book.price}`;
+      item.appendChild(priceElem);
+      
+      const buyButton = document.createElement("button");
+      buyButton.className = "buy-button";
+      buyButton.textContent = "Buy";
+      buyButton.addEventListener("click", function () {
+        window.open(`https://wa.me/${book.sellerWhatsApp}`, "_blank");
       });
-    }
-  
-    // Add event listeners to filter dropdowns to trigger new fetches when changed
-    departmentSelect.addEventListener("change", fetchBooks);
-    semesterSelect.addEventListener("change", fetchBooks);
-    subjectSelect.addEventListener("change", fetchBooks);
-  
-    // Add event listener to sort toggle for toggling sort order and updating the icon
-    sortToggle.addEventListener("click", function () {
-      // Toggle sort order between "asc" and "desc"
-      sortOrder = sortOrder === "asc" ? "desc" : "asc";
-      // Update sort icon image accordingly
-      sortIcon.src = sortOrder === "asc" ? "images/asc.png" : "images/desc.png";
-      fetchBooks();
+      item.appendChild(buyButton);
+      
+      container.appendChild(item);
     });
+  }
   
-    // Initial fetch of books when page loads
+  departmentSelect.addEventListener("change", fetchBooks);
+  semesterSelect.addEventListener("change", fetchBooks);
+  subjectSelect.addEventListener("change", fetchBooks);
+  
+  sortToggle.addEventListener("click", function () {
+    sortOrder = sortOrder === "asc" ? "desc" : "asc";
+    sortIcon.src = sortOrder === "asc" ? "images/asc.png" : "images/desc.png";
     fetchBooks();
   });
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const inputFile = document.getElementById("inputFile");
-    const fileLabel = document.querySelector(".file-label"); // Select the label
-
-    inputFile.addEventListener("change", function () {
-        if (this.files.length > 0) {
-            const fileName = this.files[0].name;
-            fileLabel.textContent = fileName;  // Update label text
-            fileLabel.style.color = "darkviolet"; // Set text color
-            fileLabel.style.fontWeight = "normal"; // Reduce font weight
-        } else {
-            fileLabel.textContent = "Choose File"; // Reset if no file selected
-        }
-    });
+  
+  // Initial fetch of books
+  fetchBooks();
+  
+  // -------------------------------
+  // FILE INPUT LABEL HANDLING
+  // -------------------------------
+  const inputFile = document.getElementById("inputFile");
+  const fileLabel = document.querySelector(".file-label");
+  
+  inputFile.addEventListener("change", function () {
+    if (this.files.length > 0) {
+      const fileName = this.files[0].name;
+      fileLabel.textContent = fileName;
+      fileLabel.style.color = "darkviolet";
+      fileLabel.style.fontWeight = "normal";
+    } else {
+      fileLabel.textContent = "Choose File";
+    }
+  });
+  
+  // -------------------------------
+  // SELL FORM SUBMISSION HANDLER
+  // -------------------------------
+  const sellForm = document.querySelector("#sell-popup form");
+  sellForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    
+    // Collect sell form values
+    const department = document.getElementById("sell-department").value;
+    const semester = parseInt(document.getElementById("sell-semester").value);
+    const subject = document.getElementById("sell-subject").value;
+    const name = document.getElementById("book-name").value;
+    const author = document.getElementById("author").value;
+    const publication = document.getElementById("publication").value;
+    const price = parseFloat(document.getElementById("price").value);
+    
+    const fileInput = document.getElementById("inputFile");
+    let image = "";
+    if (fileInput.files.length > 0) {
+      image = "images/" + fileInput.files[0].name;
+    } else {
+      image = "images/default.png"; // Optional default image if none selected
+    }
+    
+    // Get the logged-in user data (assumed to be stored in localStorage)
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || !user.whatsapp) {
+      alert("Please log in to sell a book.");
+      return;
+    }
+    const sellerWhatsApp = `+91${user.whatsapp}`;
+    
+    // Prepare the data object with consistent field names
+    const bookData = {
+      name,
+      department,
+      semester,
+      subject,
+      image,
+      price,
+      author,
+      publication,
+      sellerWhatsApp,
+    };
+    
+    try {
+      const response = await fetch("http://localhost:5000/api/books", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookData),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        alert("Book listed successfully!");
+        sellForm.reset();
+      } else {
+        alert(result.message || "Failed to list book.");
+      }
+    } catch (error) {
+      console.error("Error listing book:", error);
+      alert("Error listing book. Please try again later.");
+    }
+  });
 });
