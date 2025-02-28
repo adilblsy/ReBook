@@ -115,4 +115,19 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initial fetch of books when page loads
     fetchBooks();
   });
-  
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const inputFile = document.getElementById("inputFile");
+    const fileLabel = document.querySelector(".file-label"); // Select the label
+
+    inputFile.addEventListener("change", function () {
+        if (this.files.length > 0) {
+            const fileName = this.files[0].name;
+            fileLabel.textContent = fileName;  // Update label text
+            fileLabel.style.color = "darkviolet"; // Set text color
+            fileLabel.style.fontWeight = "normal"; // Reduce font weight
+        } else {
+            fileLabel.textContent = "Choose File"; // Reset if no file selected
+        }
+    });
+});
