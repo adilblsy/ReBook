@@ -291,9 +291,10 @@ select:focus {
     font-weight: bold;
 }
 
-/* Hide popup by default */
+/* --- Popup Styling --- */
+/* --- Popup Styling --- */
 .popup {
-    display: none;
+    display: none; /* Hidden by default */
     position: fixed;
     top: 0;
     left: 0;
@@ -301,9 +302,24 @@ select:focus {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    overflow-y: scroll;
+    overflow-y: auto;
+    /* Flex properties will apply when shown */
+    align-items: center;
+    justify-content: center;
 }
 
+/* When we want to show the popup, add the "show" class */
+.popup.show {
+    display: flex;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    width: 300px;
+    border-radius: 10px;
+    position: relative;
+}
 /* Show popup when targeted */
 :target {
     display: flex;
@@ -311,16 +327,6 @@ select:focus {
     align-items: center;
 }
 
-/* Popup content */
-.popup-content {
-    margin-top: 220px;
-    background: white;
-    padding: 20px;
-    width: 300px;
-    border-radius: 10px;
-    position: relative;
-    margin-bottom: 5px;
-}
 
 /* Close button */
 .close {

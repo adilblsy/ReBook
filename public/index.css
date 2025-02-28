@@ -131,17 +131,21 @@ section {
     margin-bottom: 20px;
     text-transform: uppercase;
     letter-spacing: 2px;
-    animation: fadeIn 1.5s ease-in-out;
+    animation: fadeIn 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 @keyframes fadeIn {
-    from {
+    0% {
         opacity: 0;
-        transform: translateY(-20px);
+        transform: translateY(-30px) scale(0.95);
     }
-    to {
+    60% {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(10px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }
 
