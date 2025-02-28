@@ -35,7 +35,7 @@ ReBook provides a **secure, campus-exclusive platform** that allows students to 
 - **Frontend** – HTML, CSS  
 - **Backend** – Node.js
 - **Database** – MongoDB  
-- **Deployment** – Running on **local host**.  
+- **Deployment** – Local host.  
 
 ## Future Enhancements  
 - **Mobile App Version** – Expanding to a mobile app for better accessibility.  
