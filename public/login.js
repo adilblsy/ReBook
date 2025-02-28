@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Basic validation
         if (!email || !password) {
-            displayErrorMessage("Please enter both email and password");
+            displayErrorMessage("Please enter credentials");
             return;
         }
         
