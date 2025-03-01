@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const User = require("../models/User");
 const crypto = require("crypto");
 
 const router = express.Router();
@@ -111,14 +111,14 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    
+
     // Include additional user details (email, name, whatsapp)
-    res.json({ 
-      token, 
+    res.json({
+      token,
       userId: user._id,
       email: user.email,
       name: user.name,
-      whatsapp: user.whatsapp
+      whatsapp: user.whatsapp,
     });
   } catch (err) {
     console.error("Login error:", err);
@@ -170,7 +170,7 @@ router.post("/verify-otp", async (req, res) => {
       userId: user._id,
       email: user.email,
       name: user.name,
-      whatsapp: user.whatsapp
+      whatsapp: user.whatsapp,
     });
   } catch (error) {
     console.error("OTP verification error:", error);
@@ -222,39 +222,41 @@ router.post("/resend-otp", async (req, res) => {
 // Send Reset Link (OTP)
 router.post("/send-reset-link", async (req, res) => {
   console.log("Received password reset request:", req.body); // Debugging log
-  
+
   const { email } = req.body;
-  
+
   if (!email) {
     return res.status(400).json({ message: "Email is required" });
   }
-  
+
   try {
     // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    
+
     // Generate new OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    
+
     // Store OTP with expiration
     otpStore[email] = {
       otp,
       expiresAt: Date.now() + 15 * 60 * 1000, // 15 minutes
     };
-    
+
     // Send email with OTP
     const emailSent = await sendVerificationEmail(req, email, otp);
-    
+
     if (emailSent) {
       return res.status(200).json({
         message: "Password reset OTP sent successfully",
         testOtp: process.env.NODE_ENV === "development" ? otp : undefined,
       });
     } else {
-      return res.status(500).json({ message: "Failed to send password reset OTP" });
+      return res
+        .status(500)
+        .json({ message: "Failed to send password reset OTP" });
     }
   } catch (error) {
     console.error("Send reset link error:", error);
@@ -280,15 +282,15 @@ router.post("/reset-password", async (req, res) => {
     if (!otpData) {
       console.log("OTP not found or expired");
       return res.status(400).json({
-        message: "OTP not found or expired. Please request a new one."
+        message: "OTP not found or expired. Please request a new one.",
       });
     }
 
     if (Date.now() > otpData.expiresAt) {
       console.log("OTP expired");
       delete otpStore[email];
-      return res.status(400).json({ 
-        message: "OTP has expired. Please request a new one." 
+      return res.status(400).json({
+        message: "OTP has expired. Please request a new one.",
       });
     }
 
@@ -312,8 +314,8 @@ router.post("/reset-password", async (req, res) => {
     await user.save();
 
     console.log("Password reset successful");
-    return res.status(200).json({ 
-      message: "Password reset successfully. Please log in." 
+    return res.status(200).json({
+      message: "Password reset successfully. Please log in.",
     });
   } catch (error) {
     console.error("Reset Password Error:", error);
@@ -324,41 +326,43 @@ router.post("/reset-password", async (req, res) => {
 // Update user details route
 router.post("/update-details", async (req, res) => {
   const { userId, mobileNumber, newPassword } = req.body;
-  
+
   // Validate inputs
   if (!userId) {
     return res.status(400).json({ message: "User ID is required" });
   }
-  
+
   // Make sure at least one field to update is provided
   if (!mobileNumber && !newPassword) {
-    return res.status(400).json({ message: "At least one field to update is required" });
+    return res
+      .status(400)
+      .json({ message: "At least one field to update is required" });
   }
-  
+
   try {
     // Find the user
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    
+
     // Create update object
     const updateObj = {};
-    
+
     // Update mobile number if provided
     if (mobileNumber) {
       updateObj.whatsapp = mobileNumber;
     }
-    
+
     // Update password if provided
     if (newPassword) {
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       updateObj.password = hashedPassword;
     }
-    
+
     // Update the user
     await User.findByIdAndUpdate(userId, updateObj);
-    
+
     return res.status(200).json({ message: "Details updated successfully" });
   } catch (error) {
     console.error("Update details error:", error);

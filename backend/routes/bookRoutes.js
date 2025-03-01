@@ -1,17 +1,18 @@
 const express = require("express");
-const Book = require("../models/book");
+const Book = require("../models/Book");
 
 const router = express.Router();
 
 // GET: Fetch books with optional filtering & sorting
 router.get("/", async (req, res) => {
   try {
-    const { department, semester, subject, sort, order, sellerWhatsApp } = req.query;
+    const { department, semester, subject, sort, order, sellerWhatsApp } =
+      req.query;
     const query = {};
     if (department) query.department = department;
     if (semester) query.semester = Number(semester);
     if (subject) query.subject = subject;
-    if (sellerWhatsApp) query.sellerWhatsApp = sellerWhatsApp;  // Filter by seller
+    if (sellerWhatsApp) query.sellerWhatsApp = sellerWhatsApp; // Filter by seller
 
     const sortOrder = order === "asc" ? 1 : -1;
     const sortOptions = {};
