@@ -1,4 +1,129 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Dynamically create the custom alert popup
+  const popup = document.createElement("div");
+  popup.id = "customAlertPopup";
+  popup.className = "popup-modal";
+
+  const popupContent = document.createElement("div");
+  popupContent.className = "popup-content";
+
+  const closeBtn = document.createElement("span");
+  closeBtn.className = "close-btn";
+  closeBtn.innerHTML = "&times;";
+
+  const popupTitle = document.createElement("h2");
+  popupTitle.id = "customAlertTitle";
+
+  const popupMessage = document.createElement("p");
+  popupMessage.id = "customAlertMessage";
+
+  const confirmBtn = document.createElement("button");
+  confirmBtn.id = "customAlertConfirmBtn";
+  confirmBtn.textContent = "OK";
+
+  // Append elements to the popup content
+  popupContent.appendChild(closeBtn);
+  popupContent.appendChild(popupTitle);
+  popupContent.appendChild(popupMessage);
+  popupContent.appendChild(confirmBtn);
+
+  // Append the popup content to the popup container
+  popup.appendChild(popupContent);
+
+  // Append the popup to the body
+  document.body.appendChild(popup);
+
+  // Add CSS for the popup dynamically
+  const style = document.createElement("style");
+  style.textContent = `
+    #customAlertPopup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #customAlertPopup .popup-content {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+    }
+
+    #customAlertPopup .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #888;
+    }
+
+    #customAlertPopup .close-btn:hover {
+      color: #333;
+    }
+
+    #customAlertPopup #customAlertTitle {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    #customAlertPopup #customAlertMessage {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    #customAlertPopup #customAlertConfirmBtn {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #customAlertPopup #customAlertConfirmBtn:hover {
+      background-color: #0056b3;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Function to show the custom alert popup
+  function showCustomAlert(title, message) {
+    popupTitle.textContent = title;
+    popupMessage.textContent = message;
+    popup.style.display = "flex";
+  }
+
+  // Function to hide the custom alert popup
+  function hideCustomAlert() {
+    popup.style.display = "none";
+  }
+
+  // Event listeners for closing the popup
+  closeBtn.addEventListener("click", hideCustomAlert);
+  confirmBtn.addEventListener("click", hideCustomAlert);
+
+  // Close the popup if the user clicks outside the modal
+  window.addEventListener("click", (event) => {
+    if (event.target === popup) {
+      hideCustomAlert();
+    }
+  });
+
   // Logout Handler
   const logoutLink = document.getElementById("logout");
   if (logoutLink) {
@@ -9,24 +134,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Sell Popup Toggle
   const sellLink = document.querySelector('.sell-container');
-  const popup = document.getElementById('sell-popup');
-  const closePopup = popup.querySelector('.close');
+  const sellPopup = document.getElementById('sell-popup');
+  const closeSellPopup = sellPopup.querySelector('.close');
 
-  sellLink.addEventListener('click', function(e) {
+  sellLink.addEventListener('click', function (e) {
     e.preventDefault();
-    popup.classList.add('show');
+    sellPopup.classList.add('show');
     history.pushState({ popup: true }, '', '#sell-popup');
   });
 
-  closePopup.addEventListener('click', function(e) {
+  closeSellPopup.addEventListener('click', function (e) {
     e.preventDefault();
-    popup.classList.remove('show');
+    sellPopup.classList.remove('show');
     history.replaceState(null, '', window.location.pathname);
   });
 
-  window.addEventListener('popstate', function(e) {
-    if (popup.classList.contains('show')) {
-      popup.classList.remove('show');
+  window.addEventListener('popstate', function (e) {
+    if (sellPopup.classList.contains('show')) {
+      sellPopup.classList.remove('show');
     }
   });
 
@@ -179,14 +304,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const fileInput = document.getElementById("inputFile");
     if (fileInput.files.length === 0) {
-      alert("Please upload an image of the book.");
+      showCustomAlert("Error", "Please upload an image of the book.");
       return;
     }
 
     // Get the logged-in user data
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user || !user.whatsapp) {
-      alert("Please log in to sell a book.");
+      showCustomAlert("Error", "Please log in to sell a book.");
       return;
     }
     const sellerWhatsApp = `+91${user.whatsapp}`;
@@ -210,15 +335,15 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       const result = await response.json();
       if (response.ok) {
-        alert("Book listed successfully!");
+        showCustomAlert("Success", "Book listed successfully!");
         sellForm.reset();
         fetchBooks(); // Refresh the book list
       } else {
-        alert(result.message || "Failed to list book.");
+        showCustomAlert("Error", result.message || "Failed to list book.");
       }
     } catch (error) {
       console.error("Error listing book:", error);
-      alert("Error listing book. Please try again later.");
+      showCustomAlert("Error", "Error listing book. Please try again later.");
     }
   });
 });

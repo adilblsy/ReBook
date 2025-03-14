@@ -1,35 +1,94 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const verificationForm = document.getElementById('otpForm');
   const otpInput = document.getElementById('otp');
   const resendButton = document.getElementById('resendOtp');
-  const messageDiv = document.getElementById('message');
-  
+
+  // Dynamically create the custom alert popup
+  const popup = document.createElement("div");
+  popup.id = "customAlertPopup";
+  popup.className = "popup-modal";
+
+  const popupContent = document.createElement("div");
+  popupContent.className = "popup-content";
+
+  const closeBtn = document.createElement("span");
+  closeBtn.className = "close-btn";
+  closeBtn.innerHTML = "&times;";
+
+  const popupTitle = document.createElement("h2");
+  popupTitle.id = "customAlertTitle";
+
+  const popupMessage = document.createElement("p");
+  popupMessage.id = "customAlertMessage";
+
+  const confirmBtn = document.createElement("button");
+  confirmBtn.id = "customAlertConfirmBtn";
+  confirmBtn.textContent = "OK";
+
+  // Append elements to the popup content
+  popupContent.appendChild(closeBtn);
+  popupContent.appendChild(popupTitle);
+  popupContent.appendChild(popupMessage);
+  popupContent.appendChild(confirmBtn);
+
+  // Append the popup content to the popup container
+  popup.appendChild(popupContent);
+
+  // Append the popup to the body
+  document.body.appendChild(popup);
+
+  // Function to show the custom alert popup
+  function showCustomAlert(title, message) {
+    popupTitle.textContent = title;
+    popupMessage.textContent = message;
+    popup.style.display = "flex";
+  }
+
+  // Function to hide the custom alert popup
+  function hideCustomAlert() {
+    popup.style.display = "none";
+  }
+
+  // Event listeners for closing the popup
+  closeBtn.addEventListener("click", hideCustomAlert);
+  confirmBtn.addEventListener("click", hideCustomAlert);
+
+  // Close the popup if the user clicks outside the modal
+  window.addEventListener("click", (event) => {
+    if (event.target === popup) {
+      hideCustomAlert();
+    }
+  });
+
   // Get email from storage
   const email = localStorage.getItem('pendingVerificationEmail');
-  
+
   if (!email) {
     // No pending verification, redirect to register
-    window.location.href = 'register.html';
+    showCustomAlert("Error", "No pending verification. Redirecting to register...");
+    setTimeout(() => {
+      window.location.href = 'register.html';
+    }, 2000); // Redirect after 2 seconds
     return;
   }
-  
+
   // Display email being verified
   const emailDisplay = document.getElementById('verifyingEmail');
   if (emailDisplay) {
     emailDisplay.textContent = email;
   }
-  
+
   // Handle OTP verification
-  verificationForm.addEventListener('submit', async function(e) {
+  verificationForm.addEventListener('submit', async function (e) {
     e.preventDefault();
-    
+
     const otp = otpInput.value.trim();
-    
+
     if (!otp) {
-      showMessage('Please enter the verification code', 'error');
+      showCustomAlert("Error", "Please enter the verification code");
       return;
     }
-    
+
     try {
       const response = await fetch('/api/auth/verify-otp', {
         method: 'POST',
@@ -38,11 +97,11 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         body: JSON.stringify({ email, otp })
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok) {
-        showMessage('Email verified successfully!', 'success');
+        showCustomAlert("Success", "Email verified successfully!");
         if (data.token) {
           localStorage.setItem('token', data.token);
         }
@@ -52,22 +111,22 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.removeItem('pendingVerificationEmail');
         setTimeout(() => {
           window.location.href = 'home.html';
-        }, 1500);
+        }, 2000); // Redirect after 2 seconds
       } else {
-        showMessage(data.message || 'Verification failed', 'error');
+        showCustomAlert("Error", data.message || "Verification failed");
       }
     } catch (error) {
       console.error('Verification error:', error);
-      showMessage('Connection error. Please try again.', 'error');
+      showCustomAlert("Error", "Connection error. Please try again.");
     }
   });
-  
+
   // Handle OTP resend
   if (resendButton) {
-    resendButton.addEventListener('click', async function() {
+    resendButton.addEventListener('click', async function () {
       try {
         resendButton.disabled = true;
-        
+
         const response = await fetch('/api/auth/resend-otp', {
           method: 'POST',
           headers: {
@@ -75,11 +134,11 @@ document.addEventListener('DOMContentLoaded', function() {
           },
           body: JSON.stringify({ email })
         });
-        
+
         const data = await response.json();
-        
+
         if (response.ok) {
-          showMessage('Verification code resent!', 'success');
+          showCustomAlert("Success", "Verification code resent!");
           let countdown = 60;
           resendButton.textContent = `Resend (${countdown}s)`;
           const timer = setInterval(() => {
@@ -92,20 +151,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
           }, 1000);
         } else {
-          showMessage(data.message || 'Failed to resend code', 'error');
+          showCustomAlert("Error", data.message || "Failed to resend code");
           resendButton.disabled = false;
         }
       } catch (error) {
         console.error('Resend error:', error);
-        showMessage('Connection error. Please try again.', 'error');
+        showCustomAlert("Error", "Connection error. Please try again.");
         resendButton.disabled = false;
       }
     });
-  }
-  
-  function showMessage(text, type) {
-    messageDiv.textContent = text;
-    messageDiv.className = type;
-    messageDiv.style.display = 'block';
   }
 });
