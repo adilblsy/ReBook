@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 const nodemailer = require('nodemailer');
+const multer = require('multer'); // Add multer for file uploads
+const cloudinary = require('cloudinary').v2; // Add Cloudinary
 
 const authRoutes = require('./routes/authRoutes');
 const bookRoutes = require('./routes/bookRoutes');
@@ -16,8 +18,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-// Serve static files (Ensure the public folder is correctly placed)
+// Serve static files (if needed)
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {

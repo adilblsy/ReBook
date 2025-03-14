@@ -1,7 +1,17 @@
 const express = require("express");
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
 const Book = require("../models/book");
 
 const router = express.Router();
+const upload = multer({ dest: "uploads/" }); // Temporary storage for uploads
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // GET: Fetch books with optional filtering & sorting
 router.get("/", async (req, res) => {
@@ -12,7 +22,7 @@ router.get("/", async (req, res) => {
     if (department) query.department = department;
     if (semester) query.semester = Number(semester);
     if (subject) query.subject = subject;
-    if (sellerWhatsApp) query.sellerWhatsApp = sellerWhatsApp; // Filter by seller
+    if (sellerWhatsApp) query.sellerWhatsApp = sellerWhatsApp;
 
     const sortOrder = order === "asc" ? 1 : -1;
     const sortOptions = {};
@@ -28,13 +38,12 @@ router.get("/", async (req, res) => {
 });
 
 // POST: Add a new book (sell form connection)
-router.post("/", async (req, res) => {
+router.post("/", upload.single("image"), async (req, res) => {
   const {
     name,
     department,
     semester,
     subject,
-    image,
     price,
     author,
     publication,
@@ -47,31 +56,36 @@ router.post("/", async (req, res) => {
     !department ||
     !semester ||
     !subject ||
-    !image ||
     !price ||
     !author ||
     !publication ||
-    !sellerWhatsApp
+    !sellerWhatsApp ||
+    !req.file
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  const book = new Book({
-    name,
-    department,
-    semester,
-    subject,
-    image,
-    price,
-    author,
-    publication,
-    sellerWhatsApp,
-  });
-
   try {
+    // Upload image to Cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path);
+
+    // Create a new book with the Cloudinary image URL
+    const book = new Book({
+      name,
+      department,
+      semester,
+      subject,
+      image: result.secure_url, // Store Cloudinary URL
+      price,
+      author,
+      publication,
+      sellerWhatsApp,
+    });
+
     await book.save();
     res.status(201).json({ message: "Book added successfully" });
   } catch (err) {
+    console.error("Error uploading image or saving book:", err);
     res.status(500).json({ message: "Error adding book" });
   }
 });

@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // -------------------------------
-  // LOGOUT HANDLER: Clear localStorage on logout click
-  // -------------------------------
+  // Logout Handler
   const logoutLink = document.getElementById("logout");
   if (logoutLink) {
     logoutLink.addEventListener("click", function () {
@@ -9,37 +7,30 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // -------------------------------
-  // SELL POPUP TOGGLE WITH HISTORY API
-  // -------------------------------
+  // Sell Popup Toggle
   const sellLink = document.querySelector('.sell-container');
   const popup = document.getElementById('sell-popup');
   const closePopup = popup.querySelector('.close');
 
-  // Open the popup and push a state so the back button can close it.
   sellLink.addEventListener('click', function(e) {
     e.preventDefault();
-    popup.classList.add('show'); // use the 'show' class to display the popup
+    popup.classList.add('show');
     history.pushState({ popup: true }, '', '#sell-popup');
   });
 
-  // Close the popup and remove the hash without navigating back.
   closePopup.addEventListener('click', function(e) {
     e.preventDefault();
     popup.classList.remove('show');
     history.replaceState(null, '', window.location.pathname);
   });
 
-  // Listen for popstate events to close the popup if open.
   window.addEventListener('popstate', function(e) {
     if (popup.classList.contains('show')) {
       popup.classList.remove('show');
     }
   });
 
-  // -------------------------------
-  // BOOK FETCH & RENDER FUNCTIONALITY
-  // -------------------------------
+  // Book Fetch & Render Functionality
   let sortOrder = "desc";
   const departmentSelect = document.getElementById("department");
   const semesterSelect = document.getElementById("semester");
@@ -136,9 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fetchBooks();
   populateSubjectFilter();
 
-  // -------------------------------
-  // DYNAMICALLY POPULATE SUBJECT FILTER
-  // -------------------------------
+  // Dynamically Populate Subject Filter
   async function populateSubjectFilter() {
     try {
       const response = await fetch('/api/books');
@@ -147,7 +136,6 @@ document.addEventListener("DOMContentLoaded", function () {
       books.forEach(book => {
         if (book.subject) subjectsSet.add(book.subject);
       });
-      // Clear existing options except the default one.
       subjectSelect.innerHTML = '<option value="">All Subjects</option>';
       subjectsSet.forEach(subject => {
         const option = document.createElement("option");
@@ -160,9 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // -------------------------------
-  // FILE INPUT LABEL HANDLING
-  // -------------------------------
+  // File Input Label Handling
   const inputFile = document.getElementById("inputFile");
   const fileLabel = document.querySelector(".file-label");
 
@@ -177,9 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // -------------------------------
-  // SELL FORM SUBMISSION HANDLER
-  // -------------------------------
+  // Sell Form Submission Handler
   const sellForm = document.querySelector("#sell-popup form");
   sellForm.addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -187,7 +171,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Collect sell form values
     const department = document.getElementById("sell-department").value;
     const semester = parseInt(document.getElementById("sell-semester").value);
-    // Subject is now an input field
     const subject = document.getElementById("sell-subject").value;
     const name = document.getElementById("book-name").value;
     const author = document.getElementById("author").value;
@@ -195,46 +178,41 @@ document.addEventListener("DOMContentLoaded", function () {
     const price = parseFloat(document.getElementById("price").value);
 
     const fileInput = document.getElementById("inputFile");
-    let image = "";
-    if (fileInput.files.length > 0) {
-      image = "images/" + fileInput.files[0].name;
-    } else {
-      image = "images/default.png";
+    if (fileInput.files.length === 0) {
+      alert("Please upload an image of the book.");
+      return;
     }
 
-    // Get the logged-in user data (assumed to be stored in localStorage)
+    // Get the logged-in user data
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user || !user.whatsapp) {
       alert("Please log in to sell a book.");
       return;
     }
-    const sellerWhatsApp = `+91${user.whatsapp}`; 
+    const sellerWhatsApp = `+91${user.whatsapp}`;
 
-    // Prepare the data object with consistent field names
-    const bookData = {
-      name,
-      department,
-      semester,
-      subject,
-      image,
-      price,
-      author,
-      publication,
-      sellerWhatsApp,
-    };
+    // Create FormData object
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("department", department);
+    formData.append("semester", semester);
+    formData.append("subject", subject);
+    formData.append("price", price);
+    formData.append("author", author);
+    formData.append("publication", publication);
+    formData.append("sellerWhatsApp", sellerWhatsApp);
+    formData.append("image", fileInput.files[0]); // Append the image file
 
     try {
       const response = await fetch("/api/books", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bookData),
+        body: formData, // Send FormData instead of JSON
       });
       const result = await response.json();
       if (response.ok) {
         alert("Book listed successfully!");
         sellForm.reset();
+        fetchBooks(); // Refresh the book list
       } else {
         alert(result.message || "Failed to list book.");
       }

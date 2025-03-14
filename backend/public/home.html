@@ -23,7 +23,6 @@
       <div class="menu-container">
         <a href="my-products.html"><p class="menu">My Products</p></a>
         <a href="account.html"><p class="menu">Account</p></a>
-        <!-- Added id for logout so we can bind an event -->
         <a href="login.html" id="logout"><p class="menu">Logout</p></a>
       </div>
     </header>
@@ -32,7 +31,6 @@
       <br />
       <div class="parent-container">
         <div class="filter-container">
-          <!-- Updated Filter Dropdowns -->
           <div class="form-group">
             <div class="dropdown">
               <select id="department" name="department">
@@ -66,7 +64,6 @@
 
           <div class="form-group">
             <div class="dropdown">
-              <!-- Subject filter will be dynamically populated -->
               <select id="subject" name="subject">
                 <option value="">All Subjects</option>
               </select>
@@ -79,7 +76,6 @@
         </div>
       </div>
 
-      <!-- Sell Books Link -->
       <a href="#sell-popup" class="sell-container">
         <img src="images/sell.png" alt="Sell Books" />
         <span>Sell Books</span>
@@ -89,13 +85,11 @@
         <!-- Books will be rendered here -->
       </section>
 
-      <!-- Sell Popup -->
       <div id="sell-popup" class="popup">
         <div class="popup-content">
           <a href="#" class="close">&times;</a>
           <h2 class="sell-title">Sell Books</h2>
-          <form>
-            <!-- Department Dropdown -->
+          <form id="sellForm" enctype="multipart/form-data">
             <label for="sell-department" class="information-type">Department</label>
             <select id="sell-department" name="sell-department" required>
               <option value="" disabled selected>Select Department</option>
@@ -108,7 +102,6 @@
               <option value="B.Arch">B.Arch</option>
             </select>
 
-            <!-- Semester Dropdown -->
             <label for="sell-semester" class="information-type">Semester</label>
             <select id="sell-semester" name="sell-semester" required>
               <option value="" disabled selected>Select Semester</option>
@@ -122,29 +115,23 @@
               <option value="8">Semester 8</option>
             </select>
 
-            <!-- Subject Input (changed from dropdown) -->
             <label for="sell-subject" class="information-type">Subject</label>
             <input type="text" id="sell-subject" name="sell-subject" required />
 
-            <!-- Book Name -->
             <label for="book-name" class="information-type">Book Name</label>
             <input type="text" id="book-name" name="book-name" required />
 
-            <!-- Author -->
             <label for="author" class="information-type">Author</label>
             <input type="text" id="author" name="author" required />
 
-            <!-- Publication -->
             <label for="publication" class="information-type">Publication</label>
             <input type="text" id="publication" name="publication" required />
 
-            <!-- Price -->
             <label for="price" class="information-type">Price</label>
             <input type="number" id="price" name="price" required />
 
-            <!-- File Input -->
             <label for="inputFile" class="file-label">Choose image</label>
-            <input type="file" name="inputFile" id="inputFile" />
+            <input type="file" name="inputFile" id="inputFile" required />
 
             <button type="submit">Sell</button>
           </form>
