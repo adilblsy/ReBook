@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Please log in to sell a book.");
       return;
     }
-    const sellerWhatsApp = `+91${user.whatsapp}`;
+    const sellerWhatsApp = `+91${user.whatsapp}`; 
 
     // Prepare the data object with consistent field names
     const bookData = {
