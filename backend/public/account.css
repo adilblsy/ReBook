@@ -249,3 +249,104 @@ form input[type="password"]:focus {
   #popupConfirmBtn:hover {
     background-color: #0056b3;
   }
+
+  /* ... your existing styles remain unchanged above ... */
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    body {
+        background-position: center;
+        background-size: cover;
+    }
+
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    header img {
+        margin-right: 0;
+        transform: scale(0.9);
+        margin-bottom: 10px;
+    }
+
+    .menu-container {
+        position: static;
+        margin-top: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .menu, .menu-on {
+        font-size: 14px;
+    }
+
+    form {
+        padding: 30px 20px;
+        margin: 20px 10px;
+        box-shadow: 0 1px 10px rgba(0,0,0,0.05);
+    }
+
+    .changepass-title {
+        font-size: 20px;
+    }
+
+    form input[type="text"],
+    form input[type="password"] {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    form button {
+        font-size: 18px;
+        padding: 14px 20px;
+    }
+
+    footer {
+        font-size: 13px;
+        padding: 10px;
+    }
+
+    .popup-content {
+        width: 95%;
+        padding: 15px;
+    }
+
+    #popupTitle {
+        font-size: 20px;
+    }
+
+    #popupMessage {
+        font-size: 14px;
+    }
+
+    #popupConfirmBtn {
+        font-size: 15px;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    form {
+        padding: 25px 15px;
+    }
+
+    .changepass-title {
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
+
+    .form-group label {
+        font-size: 14px;
+    }
+
+    .top-img {
+        width: 40px;
+    }
+
+    .menu-container {
+        gap: 15px;
+    }
+}
